@@ -39,7 +39,34 @@ def cosine_similarity(vec1, vec2):
 
 
 def build_semantic_descriptors(sentences):
-    pass
+    dic = {}
+    for i in range(len(sentences)):
+        sen_dic = {}
+
+        for w in sentences[i]:
+            sen_dic[w] = {}
+
+            for other_w in sentences[i]:
+                if other_w != w and other_w != " ":
+                    if other_w not in sen_dic[w].keys():
+                        sen_dic[w][other_w] = 1
+                    else:
+                        sen_dic[w][other_w] += 1
+
+        for w in list(sen_dic.keys()):
+            if other_w != " ":
+                if other_w not in dic.keys():
+                    dic[w] = sen_dic[w]
+                else: 
+                    if other_w:
+                        if other_w not in sen_dic[w].keys():
+                            sen_dic[w][other_w] = 1
+                        else:
+                            sen_dic[w][other_w] += 1
+
+    return dic
+
+
 
 def build_semantic_descriptors_from_files(filenames):
     #for i in range    
