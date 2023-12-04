@@ -69,20 +69,28 @@ def build_semantic_descriptors(sentences):
 
 
 def build_semantic_descriptors_from_files(filenames):
-    strings = ""
+    list_text = []
     for i in range(0, len(filenames)):
-        string = open(filenames[i], "r", encoding="latin1")
+        orig_text = open(filenames[i], "r", encoding="latin1").read()
 
-        string = string.replace(".", " ")
-        string = string.replace("?", " ")
-        string = string.replace("!", " ")
-        string = string.replace(",", " ")
-        string = string.replace("-", " ")
-        string = string.replace("--", " ")
-        string = string.replace(";", " ")
-        string = string.replace(":", " ")
+        orig_text = orig_text.replace(".", "?")
+        orig_text = orig_text.replace("!", "?")
+        orig_text = orig_text.split("?")
 
-        strings += string
+        for i in range(0, len(orig_text)):
+            orig_text[i] = orig_text[i].replace(",", "")
+            orig_text[i] = orig_text[i].replace("-", "")
+            orig_text[i] = orig_text[i].replace("--", "")
+            orig_text[i] = orig_text[i].replace(";", "")
+            orig_text[i] = orig_text[i].replace(":", "")
+            orig_text[i] = orig_text[i].replace("\n", "")
+            orig_text[i] = orig_text[i].split(" ")
+        
+        list_text.append(orig_text)
+
+    return build_semantic_descriptors(list_text)
+
+    
 
     return build_semantic_descriptors(strings)
             
