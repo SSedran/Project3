@@ -114,9 +114,17 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     for i in range(len(fileList)):
         readable = fileList[i].split()
         list1.append(readable)
-    for i in range(len(list1)):
-        list1[i] = list(dict.fromkeys(list1[i]))
     print(list1)
+    
+    score = 0
+    for i in range(len(list1)):
+        q = list1[i][0]
+        ans = list1[i][1]
+        guess = most_similar_word(q, list1[i][2:], semantic_descriptors, similarity_fn)
+        if guess == ans:
+            score += 1
+    
+    return((score/(len(list1)))*100)
 
 
 #if __name__ == "__main__":
