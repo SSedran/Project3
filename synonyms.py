@@ -69,19 +69,48 @@ def build_semantic_descriptors(sentences):
 
 
 def build_semantic_descriptors_from_files(filenames):
-    #for i in range    
-    pass
+    strings = ""
+    for i in range(0, len(filenames)):
+        string = open(filenames[i], "r", encoding="latin1")
 
+        string = string.replace(".", " ")
+        string = string.replace("?", " ")
+        string = string.replace("!", " ")
+        string = string.replace(",", " ")
+        string = string.replace("-", " ")
+        string = string.replace("--", " ")
+        string = string.replace(";", " ")
+        string = string.replace(":", " ")
+
+        strings += string
+
+    return build_semantic_descriptors(strings)
+            
 
 
 
 def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
-    pass
+    most_sim_val = -1
+    most_sim_word = ""
+
+    for i in range(0, len(choices)):
+        if choices[i] in semantic_descriptors.keys():
+            sim = similarity_fn(semantic_descriptors[choices[i]], semantic_descriptors[word])
+            if sim > most_sim_val:
+                most_sim_val = sim
+                most_sim_word = choices[i]
+    
+    if most_sim_val == -1:
+        return -1
+    return most_sim_word
+
+
 
 
 def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     pass
 
-if __name__ == "__main__":
-    print(cosine_similarity({"a": 1, "b": 2, "c": 3}, {"b": 4, "c": 5, "d": 6}))
+#if __name__ == "__main__":
+    #print(cosine_similarity({"a": 1, "b": 2, "c": 3}, {"b": 4, "c": 5, "d": 6}))
     #print(len({"a": 1, "b": 2, "c": 3}))
+    #print(open(filenames[0], "r", encoding="latin1"))
