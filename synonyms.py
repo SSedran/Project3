@@ -72,18 +72,19 @@ def build_semantic_descriptors_from_files(filenames):
     list_text = []
     for i in range(0, len(filenames)):
         orig_text = open(filenames[i], "r", encoding="latin1").read()
-
+        
+        orig_text = orig_text.lower()
         orig_text = orig_text.replace(".", "?")
         orig_text = orig_text.replace("!", "?")
         orig_text = orig_text.split("?")
 
         for a in range(0, len(orig_text)):
+            orig_text[a] = orig_text[a].replace("\n", "")
             orig_text[a] = orig_text[a].replace(",", "")
             orig_text[a] = orig_text[a].replace("-", "")
             orig_text[a] = orig_text[a].replace("--", "")
             orig_text[a] = orig_text[a].replace(";", "")
             orig_text[a] = orig_text[a].replace(":", "")
-            orig_text[a] = orig_text[a].replace("\n", "")
             orig_text[a] = orig_text[a].split(" ")
 
             for t in range(0, len(orig_text[a])):
@@ -134,7 +135,7 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
         if guess == ans:
             score += 1
     
-    return((score/(len(list1)))*100)
+    return float((score/(len(list1)))*100)
 
 
 #if __name__ == "__main__":
