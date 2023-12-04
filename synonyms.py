@@ -77,22 +77,24 @@ def build_semantic_descriptors_from_files(filenames):
         orig_text = orig_text.replace("!", "?")
         orig_text = orig_text.split("?")
 
-        for i in range(0, len(orig_text)):
-            orig_text[i] = orig_text[i].replace(",", "")
-            orig_text[i] = orig_text[i].replace("-", "")
-            orig_text[i] = orig_text[i].replace("--", "")
-            orig_text[i] = orig_text[i].replace(";", "")
-            orig_text[i] = orig_text[i].replace(":", "")
-            orig_text[i] = orig_text[i].replace("\n", "")
-            orig_text[i] = orig_text[i].split(" ")
+        for a in range(0, len(orig_text)):
+            orig_text[a] = orig_text[a].replace(",", "")
+            orig_text[a] = orig_text[a].replace("-", "")
+            orig_text[a] = orig_text[a].replace("--", "")
+            orig_text[a] = orig_text[a].replace(";", "")
+            orig_text[a] = orig_text[a].replace(":", "")
+            orig_text[a] = orig_text[a].replace("\n", "")
+            orig_text[a] = orig_text[a].split(" ")
+
+            for t in range(0, len(orig_text[a])):
+                orig_text[a][t] = orig_text[a][t].strip("\n")
+
+
         
         list_text.append(orig_text)
 
     return build_semantic_descriptors(list_text)
 
-    
-
-    return build_semantic_descriptors(strings)
             
 
 
