@@ -42,7 +42,9 @@ def build_semantic_descriptors(sentences):
     pass
 
 def build_semantic_descriptors_from_files(filenames):
+    #for i in range    
     pass
+
 
 
 
