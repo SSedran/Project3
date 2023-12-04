@@ -108,9 +108,19 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
 
 
 def run_similarity_test(filename, semantic_descriptors, similarity_fn):
-    pass
+    # making filename nice :)
+    fileList = filename.splitlines()
+    list1 = []
+    for i in range(len(fileList)):
+        readable = fileList[i].split()
+        list1.append(readable)
+    for i in range(len(list1)):
+        list1[i] = list(dict.fromkeys(list1[i]))
+    print(list1)
+
 
 #if __name__ == "__main__":
     #print(cosine_similarity({"a": 1, "b": 2, "c": 3}, {"b": 4, "c": 5, "d": 6}))
     #print(len({"a": 1, "b": 2, "c": 3}))
     #print(open(filenames[0], "r", encoding="latin1"))
+    
