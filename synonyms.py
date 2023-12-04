@@ -19,7 +19,23 @@ def norm(vec):
 
 
 def cosine_similarity(vec1, vec2):
-    pass
+    numerator = 0
+    for i in range(0,len(vec1)):
+        for a in range(0,len(vec2)):
+            if list(vec1)[i] == list(vec2)[a]:
+                numerator += list(vec1.values())[i]*list(vec2.values())[a]
+
+    denominator_v1 = 0
+    denominator_v2 = 0
+
+    for i in vec1:
+        denominator_v1 += (vec1[i])**2
+    
+    for i in vec2:
+        denominator_v2 += (vec2[i])**2
+    
+    return numerator/math.sqrt(denominator_v1*denominator_v2)
+
 
 
 def build_semantic_descriptors(sentences):
@@ -36,3 +52,7 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
 
 def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     pass
+
+if __name__ == "__main__":
+    print(cosine_similarity({"a": 1, "b": 2, "c": 3}, {"b": 4, "c": 5, "d": 6}))
+    #print(len({"a": 1, "b": 2, "c": 3}))
