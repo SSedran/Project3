@@ -138,8 +138,7 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     return float((score/(len(list1)))*100)
 
 
-#if __name__ == "__main__":
-    #print(cosine_similarity({"a": 1, "b": 2, "c": 3}, {"b": 4, "c": 5, "d": 6}))
-    #print(len({"a": 1, "b": 2, "c": 3}))
-    #print(open(filenames[0], "r", encoding="latin1"))
+if __name__ == "__main__":
+    print(cosine_similarity({"a": 1, "b": 2, "c": 3}, {"b": 4, "c": 5, "d": 6}))
+    print(build_semantic_descriptors(["swans way.txt"]))
     
