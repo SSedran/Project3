@@ -65,32 +65,42 @@ def build_semantic_descriptors(sentences):
 
 
 def build_semantic_descriptors_from_files(filenames):
-    list_text = []
+    orig_text = ''
     for i in range(0, len(filenames)):
-        orig_text = open(filenames[i], "r", encoding="latin1").read()
-        
-        orig_text = orig_text.lower()
-        orig_text = orig_text.replace(".", "?")
-        orig_text = orig_text.replace("!", "?")
-        orig_text = orig_text.split("?")
+        orig_text += open(filenames[i], "r", encoding="latin1").read()
+        orig_text += ' '        
+    orig_text = orig_text.lower()
+    orig_text = orig_text.replace(".", "?")
+    orig_text = orig_text.replace("!", "?")
+    orig_text = orig_text.replace("\n", " ")
+    orig_text = orig_text.replace(",", " ")
+    orig_text = orig_text.replace("-", " ")
+    orig_text = orig_text.replace("--", " ")
+    orig_text = orig_text.replace(";", " ")
+    orig_text = orig_text.replace(":", " ")
+    orig_text = orig_text.split("?")
 
-        for a in range(0, len(orig_text)):
-            orig_text[a] = orig_text[a].replace("\n", "")
-            orig_text[a] = orig_text[a].replace(",", "")
-            orig_text[a] = orig_text[a].replace("-", "")
-            orig_text[a] = orig_text[a].replace("--", "")
-            orig_text[a] = orig_text[a].replace(";", "")
-            orig_text[a] = orig_text[a].replace(":", "")
-            orig_text[a] = orig_text[a].split(" ")
-
-            for t in range(0, len(orig_text[a])):
-                orig_text[a][t] = orig_text[a][t].strip("\n")
+    sens = []
+    for i in range(0, len(orig_text)):
+        words = orig_text[i].strip().split(" ")
+        words = [word for word in words if word != ""]
+        sens.append(words)
 
 
-        
-        list_text.append(orig_text)
+    '''for a in range(0, len(orig_text)):
+        orig_text[a] = orig_text[a].replace("\n", "")
+        orig_text[a] = orig_text[a].replace(",", "")
+        orig_text[a] = orig_text[a].replace("-", "")
+        orig_text[a] = orig_text[a].replace("--", "")
+        orig_text[a] = orig_text[a].replace(";", "")
+        orig_text[a] = orig_text[a].replace(":", "")
+        orig_text[a] = orig_text[a].split(" ")'''
 
-    return build_semantic_descriptors(list_text)
+            #for t in range(0, len(orig_text[a])):
+                #orig_text[a][t] = orig_text[a][t].strip("\n")
+
+
+    return build_semantic_descriptors(sens)
 
 
 def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
@@ -129,8 +139,9 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     return float((score/(len(list1)))*100)
 
 
-#if __name__ == "__main__":
-    #print(cosine_similarity({"a": 1, "b": 2, "c": 3}, {"b": 4, "c": 5, "d": 6}))
+if __name__ == "__main__":
     #print(len({"a": 1, "b": 2, "c": 3}))
     #print(open(filenames[0], "r", encoding="latin1"))
+    filenames = ["swans_way.txt"]
+    print(build_semantic_descriptors_from_files(filenames))
     
