@@ -121,6 +121,8 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
 
 def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     # making filename nice :)
+    filename = str(filename)
+    filename = filename.lower()
     fileList = filename.splitlines()
     list1 = []
     for i in range(len(fileList)):
