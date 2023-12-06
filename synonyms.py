@@ -3,7 +3,6 @@ Author: Michael Guerzhoy. Last modified: Nov. 20, 2023.
 '''
 
 import math
-import tqdm
 
 def norm(vec):
     '''Return the norm of a vector stored as a dictionary, as 
@@ -17,30 +16,27 @@ def norm(vec):
 
 
 def cosine_similarity(vec1, vec2):
-    numerator = 0
-    for i in range(0,len(vec1)):
-        for a in range(0,len(vec2)):
-            if list(vec1)[i] == list(vec2)[a]:
-                numerator += list(vec1.values())[i]*list(vec2.values())[a]
+    common_keys = set(vec1.keys()).intersection(set(vec2.keys()))
+    dot_product = 0
+    for k in common_keys:
+        dot_product += vec1.get(k, 0) * vec2.get(k, 0)
 
-    denominator_v1 = 0
-    denominator_v2 = 0
+    sum_of_squares_vec1 = 0
+    for v in vec1.values():
+        sum_of_squares_vec1 += v**2
+    sum_of_squares_vec2 = 0
+    for v in vec2.values():
+        sum_of_squares_vec2 += v**2
 
-    for i in vec1:
-        denominator_v1 += (vec1[i])**2
-    
-    for i in vec2:
-        denominator_v2 += (vec2[i])**2
-    
-    if denominator_v1*denominator_v2 == 0:
+    magnitudes = math.sqrt(sum_of_squares_vec1) * math.sqrt(sum_of_squares_vec2)
+    if magnitudes == 0:
         return -1
-    
-    return numerator/math.sqrt(denominator_v1*denominator_v2)
+    return dot_product / magnitudes
 
 
 def build_semantic_descriptors(sentences):
     d = {}
-    for i in tqdm.tqdm(range(len(sentences))):
+    for i in range(len(sentences)):
         sen_d = {}
 
         for w in sentences[i]:
@@ -82,6 +78,13 @@ def build_semantic_descriptors_from_files(filenames):
     orig_text = orig_text.replace("--", " ")
     orig_text = orig_text.replace(";", " ")
     orig_text = orig_text.replace(":", " ")
+    orig_text = orig_text.replace("/", " ")
+    orig_text = orig_text.replace("|", " ")
+    orig_text = orig_text.replace("(", " ")
+    orig_text = orig_text.replace(")", " ")
+    orig_text = orig_text.replace("\"", " ")
+    orig_text = orig_text.replace("\'", " ")
+    orig_text = orig_text.replace("*", " ")
     orig_text = orig_text.split("?")
 
     sens = []
@@ -112,7 +115,7 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
 
     if word in semantic_descriptors.keys():
         for i in range(len(choices)):
-            if choices[i] in sem_descriptors:
+            if choices[i] in semantic_descriptors:
                 sim = similarity_fn(semantic_descriptors[choices[i]], semantic_descriptors[word])
                 if sim > most_sim_val:
                     most_sim_val = sim
@@ -137,7 +140,7 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
         if guess == ans:
             score += 1
     
-    return float((score/(len(filename)))*100)
+    return score/(len(list1))*100
 
 
 if __name__ == "__main__":
@@ -150,5 +153,5 @@ if __name__ == "__main__":
 
     sem_descriptors = build_semantic_descriptors_from_files(["war_and_peace.txt", "swans_way.txt"])
     res = run_similarity_test("test.txt", sem_descriptors, cosine_similarity)
-    print(res, "of the guesses were correct")
+    print(res, "%of the guesses were correct")
     
