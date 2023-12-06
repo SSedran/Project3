@@ -142,6 +142,11 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
 if __name__ == "__main__":
     #print(len({"a": 1, "b": 2, "c": 3}))
     #print(open(filenames[0], "r", encoding="latin1"))
-    filenames = ["swans_way.txt"]
-    print(build_semantic_descriptors_from_files(filenames))
+    #filename = ["swans_way.txt"]
+    #semantic_descriptors = build_semantic_descriptors_from_files(filename)
+    #print(run_similarity_test(filename, semantic_descriptors, cosine_similarity))
+
+    sem_descriptors = build_semantic_descriptors_from_files(["swans_way.txt"])
+    res = run_similarity_test("test.txt", sem_descriptors, cosine_similarity)
+    print(res, "of the guesses were correct")
     
