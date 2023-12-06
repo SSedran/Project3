@@ -3,6 +3,7 @@ Author: Michael Guerzhoy. Last modified: Nov. 20, 2023.
 '''
 
 import math
+import tqdm
 
 def norm(vec):
     '''Return the norm of a vector stored as a dictionary, as 
@@ -39,7 +40,7 @@ def cosine_similarity(vec1, vec2):
 
 def build_semantic_descriptors(sentences):
     d = {}
-    for i in range(len(sentences)):
+    for i in tqdm.tqdm(range(len(sentences))):
         sen_d = {}
 
         for w in sentences[i]:
@@ -106,12 +107,12 @@ def build_semantic_descriptors_from_files(filenames):
 
 
 def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
-    most_sim_val = -1
+    most_sim_val = -10
     most_sim_word = choices[0]
 
     if word in semantic_descriptors.keys():
-        for i in range(0, len(choices)):
-            if choices[i] in semantic_descriptors.keys():
+        for i in range(len(choices)):
+            if choices[i] in sem_descriptors:
                 sim = similarity_fn(semantic_descriptors[choices[i]], semantic_descriptors[word])
                 if sim > most_sim_val:
                     most_sim_val = sim
@@ -130,7 +131,6 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     
     score = 0
     for i in range(len(list1)):
-        
         q = list1[i][0]
         ans = list1[i][1]
         guess = most_similar_word(q, list1[i][2:], semantic_descriptors, similarity_fn)
