@@ -122,20 +122,18 @@ def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
 
 def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     # making filename nice :)
-#    filename = str(filename)
-#    filename = filename.lower()
-#    fileList = filename.splitlines()
-#    list1 = []
-#    for i in range(len(fileList)):
-#        readable = fileList[i].split()
-#        list1.append(readable)
+    with open (filename, "r", encoding="latin1") as f: 
+        data = f.readlines()
+        list1 = []
+        for i in range(len(data)):
+            list1.append(data[i].lower().split())
     
     score = 0
-    for i in range(len(filename)):
+    for i in range(len(list1)):
         
-        q = filename[i][0]
-        ans = filename[i][1]
-        guess = most_similar_word(q, filename[i][2:], semantic_descriptors, similarity_fn)
+        q = list1[i][0]
+        ans = list1[i][1]
+        guess = most_similar_word(q, list1[i][2:], semantic_descriptors, similarity_fn)
         if guess == ans:
             score += 1
     
