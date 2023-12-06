@@ -129,7 +129,6 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     for i in range(len(fileList)):
         readable = fileList[i].split()
         list1.append(readable)
-    print(list1)
     
     score = 0
     if len(list1[i]) <= 1:
