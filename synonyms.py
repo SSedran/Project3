@@ -31,6 +31,9 @@ def cosine_similarity(vec1, vec2):
     for i in vec2:
         denominator_v2 += (vec2[i])**2
     
+    if denominator_v1*denominator_v2 == 0:
+        return -1
+    
     return numerator/math.sqrt(denominator_v1*denominator_v2)
 
 
@@ -84,7 +87,8 @@ def build_semantic_descriptors_from_files(filenames):
     for i in range(0, len(orig_text)):
         words = orig_text[i].strip().split(" ")
         words = [word for word in words if word != ""]
-        sens.append(words)
+        if len(words) !=0:
+            sens.append(words)
 
 
     '''for a in range(0, len(orig_text)):
@@ -98,24 +102,21 @@ def build_semantic_descriptors_from_files(filenames):
 
             #for t in range(0, len(orig_text[a])):
                 #orig_text[a][t] = orig_text[a][t].strip("\n")
-
-
     return build_semantic_descriptors(sens)
 
 
 def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
     most_sim_val = -1
-    most_sim_word = ""
+    most_sim_word = choices[0]
 
-    for i in range(0, len(choices)):
-        if choices[i] in semantic_descriptors.keys():
-            sim = similarity_fn(semantic_descriptors[choices[i]], semantic_descriptors[word])
-            if sim > most_sim_val:
-                most_sim_val = sim
-                most_sim_word = choices[i]
+    if word in semantic_descriptors.keys():
+        for i in range(0, len(choices)):
+            if choices[i] in semantic_descriptors.keys():
+                sim = similarity_fn(semantic_descriptors[choices[i]], semantic_descriptors[word])
+                if sim > most_sim_val:
+                    most_sim_val = sim
+                    most_sim_word = choices[i]
     
-    if most_sim_val == -1:
-        return -1
     return most_sim_word
 
 
@@ -150,6 +151,7 @@ if __name__ == "__main__":
     #filename = ["swans_way.txt"]
     #semantic_descriptors = build_semantic_descriptors_from_files(filename)
     #print(run_similarity_test(filename, semantic_descriptors, cosine_similarity))
+    #print(build_semantic_descriptors_from_files(filename))
 
     sem_descriptors = build_semantic_descriptors_from_files(["war_and_peace.txt", "swans_way.txt"])
     res = run_similarity_test("test.txt", sem_descriptors, cosine_similarity)
