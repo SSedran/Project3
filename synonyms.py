@@ -149,7 +149,7 @@ if __name__ == "__main__":
     #semantic_descriptors = build_semantic_descriptors_from_files(filename)
     #print(run_similarity_test(filename, semantic_descriptors, cosine_similarity))
 
-    sem_descriptors = build_semantic_descriptors_from_files(["swans_way.txt"])
+    sem_descriptors = build_semantic_descriptors_from_files(["war_and_peace.txt", "swans_way.txt"])
     res = run_similarity_test("test.txt", sem_descriptors, cosine_similarity)
     print(res, "of the guesses were correct")
     
